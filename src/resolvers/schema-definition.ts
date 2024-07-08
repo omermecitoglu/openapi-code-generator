@@ -1,4 +1,5 @@
 import { getTupleItems, isTuple } from "~/core/tuple";
+import type { ReferenceObject } from "@omer-x/openapi-types/reference";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
 function resolveArray(items: SchemaObject[], isArray: boolean) {
@@ -26,6 +27,14 @@ function resolveTuple(items: SchemaObject | SchemaObject[], length: number) {
   }
   const names = Array(length).fill(null).map(() => resolveSchema(items));
   return `[${names.join(", ")}]`;
+}
+
+function resolveAdditionalProperties(ap?: SchemaObject | ReferenceObject | boolean) {
+  if (!ap) throw new Error("Unexpected Error while resolving additionalProperties");
+  if (ap === true || "$ref" in ap) {
+    return "Record<string, unknown>";
+  }
+  return `Record<string, ${resolveSchema(ap)}>`;
 }
 
 export function resolveSchema(definition?: SchemaObject): string {
@@ -56,8 +65,18 @@ export function resolveSchema(definition?: SchemaObject): string {
       return `${resolveSchema(definition.items)}[]`;
     }
     case "object": {
-      const props = resolveObject(definition.properties, definition.required ?? []);
-      return `{ ${props.join(", ")} }`;
+      if (definition.properties) {
+        const props = resolveObject(definition.properties, definition.required ?? []);
+        const s = [`{ ${props.join(", ")} }`];
+        if (definition.additionalProperties) {
+          s.push(resolveAdditionalProperties(definition.additionalProperties));
+        }
+        return s.join(" & ");
+      }
+      if (definition.additionalProperties) {
+        return resolveAdditionalProperties(definition.additionalProperties);
+      }
+      return "unknown";
     }
   }
   if (definition.oneOf) {
