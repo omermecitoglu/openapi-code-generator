@@ -1,0 +1,16 @@
+{{#each importedSchemas}}
+import type {{this}} from "./{{this}}";
+{{/each}}
+/**
+ * {{{description}}}
+ */
+type {{name}} = {
+  {{#each properties}}
+  /**
+   * {{{description}}}
+   */
+  {{{content}}}
+  {{/each}}
+};
+
+export default {{name}};

@@ -1,0 +1,56 @@
+{
+  "name": "@omer-x/openapi-code-generator",
+  "version": "0.1.0",
+  "description": "OpenAPI code generator",
+  "keywords": [
+    "typescript",
+    "openapi",
+    "swagger",
+    "code",
+    "generator",
+    "codegen"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omermecitoglu/openapi-code-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/omermecitoglu/openapi-code-generator/issues"
+  },
+  "homepage": "https://github.com/omermecitoglu/openapi-code-generator#readme",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": {
+    "name": "Omer Mecitoglu",
+    "email": "omer.mecitoglu@gmail.com",
+    "url": "https://omermecitoglu.github.io"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "prebuild": "ts-unused-exports tsconfig.json --excludePathsFromReport='.config;src/index'",
+    "build": "webpack build --progress --mode=production",
+    "dev": "webpack build --progress --mode=development --watch"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "@omer-x/eslint-config": "^1.0.7",
+    "@omer-x/openapi-types": "^0.1.3",
+    "@types/node": "^20.14.10",
+    "clean-webpack-plugin": "^4.0.0",
+    "eslint": "^8.57.0",
+    "raw-loader": "^4.0.2",
+    "ts-loader": "^9.5.1",
+    "ts-unused-exports": "^10.1.0",
+    "typescript": "^5.5.3",
+    "webpack-cli": "^5.1.4"
+  }
+}
