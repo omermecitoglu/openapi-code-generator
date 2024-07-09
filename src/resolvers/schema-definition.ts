@@ -53,6 +53,7 @@ export function resolveSchema(definition?: SchemaObject): string {
       return "string";
     }
     case "number": return "number";
+    case "integer": return "number";
     case "boolean": return "boolean";
     case "null": return "null";
     case "array": {
@@ -76,7 +77,6 @@ export function resolveSchema(definition?: SchemaObject): string {
       if (definition.additionalProperties) {
         return resolveAdditionalProperties(definition.additionalProperties);
       }
-      return "unknown";
     }
   }
   if (definition.oneOf) {
