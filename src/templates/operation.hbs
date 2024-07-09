@@ -5,6 +5,9 @@ export async function {{name}}({{parameters}}) {
   {{/each}}
   const response = await fetch(url, {
     method: "{{method}}",
+    headers: {
+      "Content-Type": "application/json",
+    },
   {{#if (hasRequestBody parameters)}}
     body: JSON.stringify(requestBody),
   {{/if}}
