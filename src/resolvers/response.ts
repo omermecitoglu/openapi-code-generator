@@ -4,21 +4,21 @@ import type { ResponseObject, ResponsesObject } from "@omer-x/openapi-types/resp
 
 function handleResponse(statusCode: string, resp: ResponseObject | ReferenceObject, typescript: boolean) {
   const response = getResponse(resp);
-  if (statusCode.startsWith("2")) {
-    if (response.content) {
-      for (const [responseType, content] of Object.entries(response.content)) {
-        const schema = resolveSchema(content.schema);
-        switch (responseType) {
-          case "application/json": {
+  if (response.content) {
+    for (const [responseType, content] of Object.entries(response.content)) {
+      const schema = resolveSchema(content.schema);
+      switch (responseType) {
+        case "application/json": {
+          if (statusCode.startsWith("2")) {
             if (!typescript) return "return await response.json()";
             return `return await response.json() as ${schema}`;
           }
+          return "throw await response.json()";
         }
       }
     }
-    return "return";
   }
-  return `throw new Error("${response.description}")`;
+  return statusCode.startsWith("2") ? "return" : `throw new Error("${response.description}")`;
 }
 
 export function resolveResponses(responses?: ResponsesObject) {
