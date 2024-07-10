@@ -3,7 +3,7 @@ import type { ReferenceObject } from "@omer-x/openapi-types/reference";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
 function resolveArray(items: SchemaObject[], isArray: boolean) {
-  const schemas = items.map(resolveSchema);
+  const schemas = items.map(i => resolveSchema(i));
   const names = schemas.join(" | ");
   return isArray ? `(${names})[]` : names;
 }
@@ -37,7 +37,7 @@ function resolveAdditionalProperties(ap?: SchemaObject | ReferenceObject | boole
   return `Record<string, ${resolveSchema(ap)}>`;
 }
 
-export function resolveSchema(definition?: SchemaObject): string {
+export function resolveSchema(definition?: SchemaObject, needsUnion = false): string {
   if (!definition) return "unknown";
   if ("$ref" in definition) {
     return definition.$ref.replace("#/components/schemas/", "");
@@ -63,7 +63,7 @@ export function resolveSchema(definition?: SchemaObject): string {
       if (Array.isArray(definition.items)) {
         return resolveArray(definition.items, true);
       }
-      return `${resolveSchema(definition.items)}[]`;
+      return `${resolveSchema(definition.items, true)}[]`;
     }
     case "object": {
       if (definition.properties) {
@@ -80,10 +80,12 @@ export function resolveSchema(definition?: SchemaObject): string {
     }
   }
   if (definition.oneOf) {
-    return resolveArray(definition.oneOf, false);
+    const result = resolveArray(definition.oneOf, false);
+    return (needsUnion && definition.oneOf.length > 1) ? `(${result})` : result;
   }
   if (definition.anyOf) {
-    return resolveArray(definition.anyOf, false);
+    const result = resolveArray(definition.anyOf, false);
+    return (needsUnion && definition.anyOf.length > 1) ? `(${result})` : result;
   }
   return "unknown";
 }
@@ -124,7 +126,12 @@ function isGenericSchema(schema: string) {
   if (isTuple(schema)) {
     const items = getTupleItems(schema);
     if (items.every(isGenericSchema)) return true;
-    throw new Error("There is a named type in the tuple. This resolver is not smart enough to handle that.");
+    throw new Error("There is a named type in the tuple. This resolver is not advanced enough to handle that.");
+  }
+  if (schema.includes("|")) { // is union
+    const items = schema.split("|").map(i => i.trim());
+    if (items.every(isGenericSchema)) return true;
+    throw new Error("There is a named type in the union. This resolver is not advanced enough to handle that.");
   }
   if (isEverydayType(schema)) return true;
   if (isRawObject(schema)) return true;
