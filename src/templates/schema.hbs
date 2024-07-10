@@ -4,6 +4,7 @@ import type {{this}} from "./{{this}}";
 /**
  * {{{description}}}
  */
+{{#if (eq type "object")}}
 type {{name}} = {
   {{#each properties}}
   /**
@@ -12,5 +13,8 @@ type {{name}} = {
   {{{content}}}
   {{/each}}
 };
+{{else}}
+type {{name}} = {{{definition}}};
+{{/if}}
 
 export default {{name}};

@@ -10,10 +10,19 @@ import resolveProperties from "./resolvers/property";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
 export function generateSchemaCode(name: string, schema: SchemaObject) {
-  if (schema.type !== "object") throw new Error("Schema type is not object");
-  const properties = resolveProperties(schema.properties ?? {}, schema.required ?? []);
-  const importedSchemas = resolveSchemasFromProps(schema.properties ?? {});
-  return generateSchema(name, properties, importedSchemas, schema.description);
+  if (!schema.type) throw new Error("Schema type is missing");
+  switch (schema.type) {
+    case "object": {
+      const properties = resolveProperties(schema.properties ?? {}, schema.required ?? []);
+      const importedSchemas = resolveSchemasFromProps(schema.properties ?? {});
+      return generateSchema(name, schema, properties, importedSchemas);
+    }
+    case "array":
+      // TODO: add imported schemas
+      return generateSchema(name, schema, [], []);
+    default:
+      return generateSchema(name, schema, [], []);
+  }
 }
 
 export {
