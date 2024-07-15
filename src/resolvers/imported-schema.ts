@@ -1,4 +1,5 @@
 import { getTupleItems, isTuple } from "~/core/tuple";
+import { getisUnionItems, isUnion } from "~/core/union";
 import { getBodyRequest } from "./body-request";
 import getContentSchema from "./content";
 import resolveEndpoints from "./enpoint";
@@ -35,12 +36,21 @@ function extractTuples(collection: string[]) {
   }).flat();
 }
 
+function extractUnions(collection: string[]) {
+  return collection.map(schema => {
+    if (isUnion(schema.replaceAll("[]", ""))) {
+      return getisUnionItems(schema);
+    }
+    return schema;
+  }).flat();
+}
+
 export function resolveSchemas(paths: PathsObject) {
   const collection = resolveEndpoints(paths).map(({ operation }) => ([
     ...resolveRequestSchemas(operation.requestBody),
     ...resolveResponseSchemas(operation.responses),
   ])).flat();
-  const uniqueCollection = Array.from(new Set(extractTuples(collection)));
+  const uniqueCollection = Array.from(new Set(extractTuples(extractUnions(collection))));
   return filterGenericSchemas(uniqueCollection).toSorted();
 }
 
@@ -65,6 +75,6 @@ function resolvePropDefinition(definition: SchemaObject) {
 
 export function resolveSchemasFromProps(props: Record<string, SchemaObject>) {
   const collection = Object.values(props).map(resolvePropDefinition).flat();
-  const uniqueCollection = Array.from(new Set(extractTuples(collection)));
+  const uniqueCollection = Array.from(new Set(extractTuples(extractUnions(collection))));
   return filterGenericSchemas(uniqueCollection).toSorted();
 }
