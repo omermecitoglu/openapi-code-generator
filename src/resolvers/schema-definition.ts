@@ -1,5 +1,5 @@
 import { getTupleItems, isTuple } from "~/core/tuple";
-import { getisUnionItems, isUnion } from "~/core/union";
+import { getUnionItems, isUnion } from "~/core/union";
 import type { ReferenceObject } from "@omer-x/openapi-types/reference";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
@@ -130,7 +130,7 @@ function isGenericSchema(schema: string) {
     throw new Error("There is a named type in the tuple. This resolver is not advanced enough to handle that.");
   }
   if (isUnion(schema)) {
-    const items = getisUnionItems(schema);
+    const items = getUnionItems(schema);
     if (items.every(isGenericSchema)) return true;
     throw new Error("There is a named type in the union. This resolver is not advanced enough to handle that.");
   }

@@ -1,5 +1,5 @@
 import { getTupleItems, isTuple } from "~/core/tuple";
-import { getisUnionItems, isUnion } from "~/core/union";
+import { getUnionItems, isUnion } from "~/core/union";
 import { getBodyRequest } from "./body-request";
 import getContentSchema from "./content";
 import resolveEndpoints from "./enpoint";
@@ -39,7 +39,7 @@ function extractTuples(collection: string[]) {
 function extractUnions(collection: string[]) {
   return collection.map(schema => {
     if (isUnion(schema.replaceAll("[]", ""))) {
-      return getisUnionItems(schema);
+      return getUnionItems(schema);
     }
     return schema;
   }).flat();
