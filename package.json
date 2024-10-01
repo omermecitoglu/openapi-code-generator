@@ -1,6 +1,6 @@
 {
   "name": "@omer-x/openapi-code-generator",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "description": "OpenAPI code generator",
   "keywords": [
     "typescript",
@@ -51,6 +51,7 @@
     "eslint": "^8.57.1",
     "handlebars-jest": "^1.0.0",
     "raw-loader": "^4.0.2",
+    "semantic-release": "^24.1.2",
     "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
