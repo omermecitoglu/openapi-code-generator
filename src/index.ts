@@ -1,12 +1,12 @@
-import "~/renderers/operation";
-import "~/renderers/parameter";
+import "~/templates/operation";
+import "~/templates/parameter";
 import generateConfigs from "./core/configs";
-import generateDeclaration from "./renderers/declaration";
-import generateDocumentation from "./renderers/documentation";
-import generateInterface from "./renderers/interface";
-import generateSchema from "./renderers/schema";
 import { resolveSchemasFromProps } from "./resolvers/imported-schema";
 import resolveProperties from "./resolvers/property";
+import generateDeclaration from "./templates/declaration";
+import generateDocumentation from "./templates/documentation";
+import generateInterface from "./templates/interface";
+import generateSchema from "./templates/schema";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
 export function generateSchemaCode(name: string, schema: SchemaObject) {

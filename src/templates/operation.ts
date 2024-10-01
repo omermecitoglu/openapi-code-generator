@@ -1,6 +1,6 @@
 import Handlebars from "handlebars";
-import operationTemplate2 from "~/templates/operation-with-form-data.hbs";
-import operationTemplate from "~/templates/operation.hbs";
+import operationTemplate2 from "./operation-with-form-data.hbs";
+import operationTemplate from "./operation.hbs";
 
 Handlebars.registerHelper("hasRequestBody", (input: string[]) => {
   return input.includes("requestBody");

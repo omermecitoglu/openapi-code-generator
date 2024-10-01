@@ -1,7 +1,7 @@
 import Handlebars from "handlebars";
 import getTemplate from "~/core/template";
 import { type DocumentedOperation, resolveDocumentedOperations } from "~/resolvers/documented-operation";
-import documentationTemplate from "~/templates/documentation.hbs";
+import documentationTemplate from "./documentation.hbs";
 import type { PathsObject } from "@omer-x/openapi-types/paths";
 
 type DocumentationTemplate = {

@@ -2,7 +2,7 @@ import Handlebars from "handlebars";
 import getTemplate from "~/core/template";
 import type { ModelProperty } from "~/resolvers/property";
 import { resolveSchema } from "~/resolvers/schema-definition";
-import schemaTemplate from "~/templates/schema.hbs";
+import schemaTemplate from "./schema.hbs";
 import type { SchemaObject } from "@omer-x/openapi-types/schema";
 
 type SchemaTemplate = {

@@ -28,15 +28,15 @@
     "url": "https://omermecitoglu.github.io"
   },
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/"
   ],
   "scripts": {
-    "prebuild": "ts-unused-exports tsconfig.json --excludePathsFromReport='.config;src/index'",
-    "build": "webpack build --progress --mode=production",
-    "dev": "webpack build --progress --mode=development --watch"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "dependencies": {
     "handlebars": "^4.7.8"
@@ -46,10 +46,12 @@
     "@omer-x/openapi-types": "^0.2.1",
     "@types/node": "^22.7.4",
     "clean-webpack-plugin": "^4.0.0",
+    "esbuild-plugin-inline-import": "^1.1.0",
     "eslint": "^8.57.1",
     "raw-loader": "^4.0.2",
     "ts-loader": "^9.5.1",
     "ts-unused-exports": "^10.1.0",
+    "tsup": "^8.3.0",
     "typescript": "^5.6.2",
     "webpack-cli": "^5.1.4"
   }

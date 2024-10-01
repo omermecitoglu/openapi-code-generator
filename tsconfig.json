@@ -2,13 +2,13 @@
   "compilerOptions": {
     "outDir": "dist",
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": [],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "declaration": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -20,8 +20,7 @@
     },
   },
   "include": [
-    "global.d.ts",
-    "src/**/*.ts",
+    "**/*.ts",
   ],
   "exclude": ["node_modules"]
 }

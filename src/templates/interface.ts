@@ -1,6 +1,6 @@
 import getTemplate from "~/core/template";
 import resolveOperations, { type OperationTemplate } from "~/resolvers/operation";
-import interfaceTemplate from "~/templates/interface.hbs";
+import interfaceTemplate from "./interface.hbs";
 import type { PathsObject } from "@omer-x/openapi-types/paths";
 
 type InterfaceTemplate = {
