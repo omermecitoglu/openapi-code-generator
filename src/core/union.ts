@@ -6,5 +6,5 @@ export function isUnion(schema: string) {
 }
 
 export function getUnionItems(schema: string) {
-  return schema.split("|").map(i => i.trim());
+  return schema.replace(/[()]/g, "").split("|").map(i => i.trim());
 }
